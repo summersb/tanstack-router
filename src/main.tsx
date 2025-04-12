@@ -1,14 +1,15 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
-import './index.css';
+import './index.css'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 
 import reportWebVitals from './reportWebVitals.ts'
 
-import {QueryClientProvider, QueryClient} from '@tanstack/react-query'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,8 +17,8 @@ export const queryClient = new QueryClient({
       staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
       retry: 1, // Retry failed requests once
     },
-  }},
-)
+  },
+})
 
 // Create a new router instance
 const router = createRouter({
@@ -42,10 +43,11 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient} >
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-    </StrictMode>,
+    </StrictMode>
   )
 }
 
