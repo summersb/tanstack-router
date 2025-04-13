@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "tanstack-router",
   "private": true,
   "type": "module",
   "scripts": {
