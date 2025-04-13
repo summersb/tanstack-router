@@ -1,5 +1,6 @@
-import { queryClient } from '@/main'
-import { createFileRoute, Link } from '@tanstack/react-router'
+import {queryClient} from '@/main'
+import {createFileRoute} from '@tanstack/react-router'
+import TodoTable from "@/components/TodoTable.tsx";
 
 export const Route = createFileRoute('/todos/')({
   component: RouteComponent,
@@ -10,7 +11,7 @@ export const Route = createFileRoute('/todos/')({
     const todo = await queryClient.ensureQueryData({
       queryKey, queryFn
     })
-    return { todo, queryKey }
+    return {todo, queryKey}
   },
   pendingComponent: () => <>Loading ...</>,
   onError: (err) => {
@@ -18,7 +19,7 @@ export const Route = createFileRoute('/todos/')({
   }
 })
 
-type Todo = {
+export type Todo = {
   id: number
   userId: number
   title: string
@@ -27,14 +28,11 @@ type Todo = {
 
 function RouteComponent() {
   const {todo} = Route.useLoaderData()
+  console.log("todos/index.tsx")
 
-  return (<div>
-    {todo.map(p => (
-      <div key={p.id} className='p-4 border-blue-500 border-2'>
-        <Link to="/todos/$todoId" params={{ todoId: String(p.id) }}>
-          {p.title}
-        </Link>
-      </div>
-    )) }
-    </div>)
+  return (
+    <div>
+      <TodoTable todos={todo}/>
+    </div>
+  )
 }

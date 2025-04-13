@@ -1,8 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute} from '@tanstack/react-router'
+import TodoCard from "@/components/TodoCard.tsx";
 
 export const Route = createFileRoute('/todos/$todoId')({
   component: Todo,
-  loader: async ({ params: { todoId } }) =>
+  loader: async ({params: {todoId}}) =>
     fetch(`https://jsonplaceholder.typicode.com/todos/${todoId}`)
       .then(res => res.json()),
   pendingComponent: () => <>Loading...</>
@@ -11,12 +12,9 @@ export const Route = createFileRoute('/todos/$todoId')({
 function Todo() {
   const todo = Route.useLoaderData()
 
-  return <div>
+  return (
     <div>
-      Title: {todo.title}
+      <TodoCard todo={todo}/>
     </div>
-    <div>
-      Completed: {todo.completed ? 'True': 'False'}
-    </div>
-  </div>
+  )
 }

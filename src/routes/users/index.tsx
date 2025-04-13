@@ -1,32 +1,8 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { UserSummary } from '@/components/User'
-import { queryClient } from '@/main'
-//import UserTable from '@/components/UserTable'
+import {createFileRoute} from '@tanstack/react-router'
+import {queryClient} from '@/main'
 import UserTable from '@/components/UserTable'
+import type {User} from "@/types/User.ts";
 
-export type User = {
-  id: number
-  name: string
-  username: string
-  email: string
-  address: {
-    street: string
-    suite: string
-    city: string
-    zipcode: string
-    geo: {
-      lat: string
-      lng: string
-    }
-  }
-  phone: string
-  website: string
-  company: {
-    name: string
-    catchPhrase: string
-    bs: string
-  }
-}
 
 export const Route = createFileRoute('/users/')({
   component: Users,
@@ -40,20 +16,21 @@ export const Route = createFileRoute('/users/')({
       queryKey,
       queryFn,
     })
-    return { users, queryKey }
+    return {users, queryKey}
   },
   pendingComponent: () => <>Loading ...</>,
   onError: (err) => {
-    ;<div>Loading problem {JSON.stringify(err)}</div>
+    <div>Loading problem {JSON.stringify(err)}</div>
   },
 })
 
 function Users() {
-  const { users } = Route.useLoaderData()
+  console.log("todos/users.tsx")
+  const {users} = Route.useLoaderData()
 
   return (
     <>
-      <UserTable users={users} />
+      <UserTable users={users}/>
     </>
   )
 }

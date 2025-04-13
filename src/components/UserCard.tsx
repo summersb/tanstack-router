@@ -4,16 +4,6 @@ type UserProps = {
   user: UserType
 }
 
-const UserSummary = (props: UserProps) => {
-  const { user } = props
-
-  return (
-    <div className="p-4">
-      {user.id} {user.name}
-    </div>
-  )
-}
-
 const UserCard = (props: UserProps) => {
   const { user } = props
 
@@ -37,7 +27,7 @@ const UserCard = (props: UserProps) => {
       <div className="text-sm text-gray-700 dark:text-gray-300">
         🌐{' '}
         <a
-          href={`http://${user.website}`}
+          href={`https://${user.website}`}
           target="_blank"
           rel="noreferrer"
           className="underline"
@@ -79,4 +69,4 @@ const UserCard = (props: UserProps) => {
   )
 }
 
-export { UserSummary, UserCard }
+export {  UserCard }

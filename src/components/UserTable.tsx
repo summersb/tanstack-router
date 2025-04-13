@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, {useMemo, useState} from 'react'
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -7,8 +7,9 @@ import {
   useReactTable,
   flexRender,
 } from '@tanstack/react-table'
-import { Link } from '@tanstack/react-router'
-import type { User } from '@/routes/users/index'
+import {Link} from '@tanstack/react-router'
+import {FileText} from "lucide-react";
+import type {User} from "@/types/User.ts";
 
 type UserTableProps = {
   users: User[]
@@ -16,15 +17,28 @@ type UserTableProps = {
 
 const columnHelper = createColumnHelper<User>()
 
-const UserTable: React.FC<UserTableProps> = ({ users }) => {
+const UserTable: React.FC<UserTableProps> = ({users}) => {
   const [globalFilter, setGlobalFilter] = useState('')
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 5,
+    pageSize: 10,
   })
 
   const columns = useMemo(
     () => [
+      columnHelper.display({
+        id: 'actions',
+        header: 'Actions',
+        cell: ({row}) => (
+          <Link
+            to="/users/$userId"
+            params={{userId: String(row.original.id)}}
+          >
+            <FileText className="w-4 h-4"/>
+            <span className="sr-only">View Details</span>
+          </Link>
+        ),
+      }),
       columnHelper.accessor('name', {
         header: 'Name',
       }),
@@ -49,7 +63,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
         header: 'Website',
         cell: (info) => (
           <a
-            href={`http://${info.getValue()}`}
+            href={`https://${info.getValue()}`}
             target="_blank"
             rel="noreferrer"
             className="underline text-blue-600 dark:text-blue-400"
@@ -65,20 +79,6 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
       columnHelper.accessor((row) => row.address.city, {
         id: 'city',
         header: 'City',
-      }),
-      columnHelper.display({
-        id: 'actions',
-        header: 'Actions',
-        cell: ({ row }) => (
-          <Link
-            to="/users/$userId"
-            params={{ userId: String(row.original.id) }}
-          >
-            <button className="text-sm px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600 transition">
-              View Details
-            </button>
-          </Link>
-        ),
       }),
     ],
     []
@@ -111,38 +111,38 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-100 dark:bg-gray-800">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </th>
-                ))}
-              </tr>
-            ))}
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </th>
+              ))}
+            </tr>
+          ))}
           </thead>
           <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-            {table.getRowModel().rows.map((row) => (
-              <tr
-                key={row.id}
-                className="even:bg-gray-50 odd:bg-white dark:even:bg-gray-800 dark:odd:bg-gray-900"
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
+          {table.getRowModel().rows.map((row) => (
+            <tr
+              key={row.id}
+              className="even:bg-gray-50 odd:bg-white dark:even:bg-gray-800 dark:odd:bg-gray-900"
+            >
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  key={cell.id}
+                  className="px-4 py-2 text-sm text-gray-700 dark:text-gray-300"
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
           </tbody>
         </table>
       </div>
@@ -150,8 +150,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
       {/* Pagination */}
       <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
         <div className="text-sm text-gray-700 dark:text-gray-300">
-          Page {table.getState().pagination.pageIndex + 1} of{' '}
-          {table.getPageCount()}
+          Page {`${table.getState().pagination.pageIndex + 1} of ${table.getPageCount()}`}
         </div>
 
         <div className="flex items-center gap-2">

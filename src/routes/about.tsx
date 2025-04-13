@@ -5,5 +5,6 @@ export const Route = createFileRoute('/about')({
 })
 
 function About() {
+  console.log("root/about.tsx")
   return <div className="p-2">Hello from About!</div>
 }
