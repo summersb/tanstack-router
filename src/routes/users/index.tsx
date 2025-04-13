@@ -1,6 +1,6 @@
 import {createFileRoute} from '@tanstack/react-router'
-import {queryClient} from '@/main'
-import UserTable from '@/components/UserTable'
+import queryClient from '@/queryClient'
+import UserTable from '@/components/user/UserTable'
 import type {User} from "@/types";
 
 
@@ -25,7 +25,6 @@ export const Route = createFileRoute('/users/')({
 })
 
 function Users() {
-  console.log("todos/users.tsx")
   const {users} = Route.useLoaderData()
 
   return (

@@ -10,7 +10,7 @@ import {
 import {Link} from '@tanstack/react-router'
 import {FileText} from "lucide-react";
 import type {User} from "@/types";
-import TablePagination from "@/components/TablePagination.tsx";
+import TablePagination from "@/components/ui/TablePagination.tsx";
 
 type UserTableProps = {
   users: User[]

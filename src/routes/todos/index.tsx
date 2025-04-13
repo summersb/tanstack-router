@@ -1,6 +1,6 @@
-import {queryClient} from '@/main'
+import queryClient from '@/queryClient'
 import {createFileRoute} from '@tanstack/react-router'
-import TodoTable from "@/components/TodoTable.tsx";
+import TodoTable from "@/components/todo/TodoTable.tsx";
 import type {Todo} from "@/types";
 
 export const Route = createFileRoute('/todos/')({
@@ -22,7 +22,6 @@ export const Route = createFileRoute('/todos/')({
 
 function RouteComponent() {
   const {todo} = Route.useLoaderData()
-  console.log("todos/index.tsx")
 
   return (
     <div>

@@ -1,5 +1,5 @@
 import {createFileRoute} from '@tanstack/react-router'
-import TodoCard from "@/components/TodoCard.tsx";
+import TodoCard from "@/components/todo/TodoCard.tsx";
 
 export const Route = createFileRoute('/todos/$todoId')({
   component: Todo,

@@ -1,6 +1,6 @@
-import {UserCard} from '@/components/UserCard.tsx'
+import {UserCard} from '@/components/user/UserCard.tsx'
 import {createFileRoute} from '@tanstack/react-router'
-import {queryClient} from '@/main'
+import queryClient from '@/queryClient'
 import type {User} from '@/types'
 
 export const Route = createFileRoute('/users/$userId')({

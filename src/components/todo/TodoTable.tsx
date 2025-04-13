@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-table";
 import {Link} from "@tanstack/react-router";
 import {FileText} from "lucide-react";
-import TablePagination from "@/components/TablePagination.tsx";
+import TablePagination from "@/components/ui/TablePagination.tsx";
 import type {Todo} from "@/types";
 
 type TodoTableProps = {
