@@ -1,5 +1,5 @@
 import React from 'react';
-import type {Todo} from "@/routes/todos";
+import type {Todo} from "@/types";
 
 type TodoCardProps = {
   todo: Todo

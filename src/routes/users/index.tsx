@@ -1,7 +1,7 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {queryClient} from '@/main'
 import UserTable from '@/components/UserTable'
-import type {User} from "@/types/User.ts";
+import type {User} from "@/types";
 
 
 export const Route = createFileRoute('/users/')({

@@ -1,6 +1,7 @@
 import {queryClient} from '@/main'
 import {createFileRoute} from '@tanstack/react-router'
 import TodoTable from "@/components/TodoTable.tsx";
+import type {Todo} from "@/types";
 
 export const Route = createFileRoute('/todos/')({
   component: RouteComponent,
@@ -18,13 +19,6 @@ export const Route = createFileRoute('/todos/')({
     <div>Loading problem {JSON.stringify(err)}</div>
   }
 })
-
-export type Todo = {
-  id: number
-  userId: number
-  title: string
-  completed: boolean
-}
 
 function RouteComponent() {
   const {todo} = Route.useLoaderData()

@@ -6,9 +6,10 @@ import {
   getPaginationRowModel,
   useReactTable
 } from "@tanstack/react-table";
-import type {Todo} from "@/routes/todos";
 import {Link} from "@tanstack/react-router";
 import {FileText} from "lucide-react";
+import TablePagination from "@/components/TablePagination.tsx";
+import type {Todo} from "@/types";
 
 type TodoTableProps = {
   todos: Todo[]
@@ -101,37 +102,7 @@ const TodoTable = ({todos}: TodoTableProps): React.ReactElement => {
         </table>
       </div>
 
-      <div className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
-        <div className="text-sm text-gray-700 dark:text-gray-300">
-          Page {`${table.getState().pagination.pageIndex + 1} of ${table.getPageCount()}`}
-        </div>
-        <div className="flex items-center gap-2">
-          <label className="text-sm text-gray-700 dark:text-gray-300">Rows per Page:</label>
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => table.setPageSize(Number(e.target.value))}
-            className="px-2 py-1 rounded-md border dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100"
-          >
-            {[5, 10, 20, 50, 100].map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="space-x-2">
-          <button
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded disable:opacity-50">Prev
-          </button>
-          <button
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-            className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded disable:opacity-50">Next
-          </button>
-        </div>
-      </div>
+      <TablePagination table={table}/>
     </div>
   );
 };

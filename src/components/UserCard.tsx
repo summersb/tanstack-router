@@ -1,7 +1,7 @@
-import type { User as UserType } from '@/routes/users'
+import type { User } from '@/types'
 
 type UserProps = {
-  user: UserType
+  user: User
 }
 
 const UserCard = (props: UserProps) => {
