@@ -3,7 +3,7 @@ import {createFileRoute} from '@tanstack/react-router'
 import queryClient from '@/queryClient'
 import type {User} from '@/types'
 
-export const Route = createFileRoute('/users/$userId')({
+export const Route = createFileRoute('/users/$userId/')({
   component: User,
   loader: async ({params: {userId}}) => {
     const queryKey = ['users', userId]

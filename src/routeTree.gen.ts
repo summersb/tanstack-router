@@ -15,8 +15,9 @@ import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users/index'
 import { Route as TodosIndexImport } from './routes/todos/index'
-import { Route as UsersUserIdImport } from './routes/users/$userId'
 import { Route as TodosTodoIdImport } from './routes/todos/$todoId'
+import { Route as UsersUserIdIndexImport } from './routes/users/$userId/index'
+import { Route as UsersUserIdEditImport } from './routes/users/$userId/edit'
 
 // Create/Update Routes
 
@@ -44,15 +45,21 @@ const TodosIndexRoute = TodosIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const UsersUserIdRoute = UsersUserIdImport.update({
-  id: '/users/$userId',
-  path: '/users/$userId',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const TodosTodoIdRoute = TodosTodoIdImport.update({
   id: '/todos/$todoId',
   path: '/todos/$todoId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UsersUserIdIndexRoute = UsersUserIdIndexImport.update({
+  id: '/users/$userId/',
+  path: '/users/$userId/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UsersUserIdEditRoute = UsersUserIdEditImport.update({
+  id: '/users/$userId/edit',
+  path: '/users/$userId/edit',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -81,13 +88,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TodosTodoIdImport
       parentRoute: typeof rootRoute
     }
-    '/users/$userId': {
-      id: '/users/$userId'
-      path: '/users/$userId'
-      fullPath: '/users/$userId'
-      preLoaderRoute: typeof UsersUserIdImport
-      parentRoute: typeof rootRoute
-    }
     '/todos/': {
       id: '/todos/'
       path: '/todos'
@@ -102,6 +102,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersIndexImport
       parentRoute: typeof rootRoute
     }
+    '/users/$userId/edit': {
+      id: '/users/$userId/edit'
+      path: '/users/$userId/edit'
+      fullPath: '/users/$userId/edit'
+      preLoaderRoute: typeof UsersUserIdEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/users/$userId/': {
+      id: '/users/$userId/'
+      path: '/users/$userId'
+      fullPath: '/users/$userId'
+      preLoaderRoute: typeof UsersUserIdIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -111,18 +125,20 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
-  '/users/$userId': typeof UsersUserIdRoute
   '/todos': typeof TodosIndexRoute
   '/users': typeof UsersIndexRoute
+  '/users/$userId/edit': typeof UsersUserIdEditRoute
+  '/users/$userId': typeof UsersUserIdIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
-  '/users/$userId': typeof UsersUserIdRoute
   '/todos': typeof TodosIndexRoute
   '/users': typeof UsersIndexRoute
+  '/users/$userId/edit': typeof UsersUserIdEditRoute
+  '/users/$userId': typeof UsersUserIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -130,9 +146,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/todos/$todoId': typeof TodosTodoIdRoute
-  '/users/$userId': typeof UsersUserIdRoute
   '/todos/': typeof TodosIndexRoute
   '/users/': typeof UsersIndexRoute
+  '/users/$userId/edit': typeof UsersUserIdEditRoute
+  '/users/$userId/': typeof UsersUserIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -141,19 +158,28 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/todos/$todoId'
-    | '/users/$userId'
     | '/todos'
     | '/users'
+    | '/users/$userId/edit'
+    | '/users/$userId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/todos/$todoId' | '/users/$userId' | '/todos' | '/users'
+  to:
+    | '/'
+    | '/about'
+    | '/todos/$todoId'
+    | '/todos'
+    | '/users'
+    | '/users/$userId/edit'
+    | '/users/$userId'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/todos/$todoId'
-    | '/users/$userId'
     | '/todos/'
     | '/users/'
+    | '/users/$userId/edit'
+    | '/users/$userId/'
   fileRoutesById: FileRoutesById
 }
 
@@ -161,18 +187,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   TodosTodoIdRoute: typeof TodosTodoIdRoute
-  UsersUserIdRoute: typeof UsersUserIdRoute
   TodosIndexRoute: typeof TodosIndexRoute
   UsersIndexRoute: typeof UsersIndexRoute
+  UsersUserIdEditRoute: typeof UsersUserIdEditRoute
+  UsersUserIdIndexRoute: typeof UsersUserIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   TodosTodoIdRoute: TodosTodoIdRoute,
-  UsersUserIdRoute: UsersUserIdRoute,
   TodosIndexRoute: TodosIndexRoute,
   UsersIndexRoute: UsersIndexRoute,
+  UsersUserIdEditRoute: UsersUserIdEditRoute,
+  UsersUserIdIndexRoute: UsersUserIdIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -188,9 +216,10 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/todos/$todoId",
-        "/users/$userId",
         "/todos/",
-        "/users/"
+        "/users/",
+        "/users/$userId/edit",
+        "/users/$userId/"
       ]
     },
     "/": {
@@ -202,14 +231,17 @@ export const routeTree = rootRoute
     "/todos/$todoId": {
       "filePath": "todos/$todoId.tsx"
     },
-    "/users/$userId": {
-      "filePath": "users/$userId.tsx"
-    },
     "/todos/": {
       "filePath": "todos/index.tsx"
     },
     "/users/": {
       "filePath": "users/index.tsx"
+    },
+    "/users/$userId/edit": {
+      "filePath": "users/$userId/edit.tsx"
+    },
+    "/users/$userId/": {
+      "filePath": "users/$userId/index.tsx"
     }
   }
 }

@@ -8,7 +8,7 @@ import {
   flexRender,
 } from '@tanstack/react-table'
 import {Link} from '@tanstack/react-router'
-import {FileText} from "lucide-react";
+import {FileText, Pencil} from "lucide-react";
 import type {User} from "@/types";
 import TablePagination from "@/components/ui/TablePagination.tsx";
 
@@ -31,13 +31,22 @@ const UserTable: React.FC<UserTableProps> = ({users}) => {
         id: 'actions',
         header: 'Actions',
         cell: ({row}) => (
+          <span>
+            <Link
+              to="/users/$userId"
+              params={{userId: String(row.original.id)}}
+            >
+              <FileText className="w-4 h-4"/>
+              <span className="sr-only">View Details</span>
+            </Link>
           <Link
-            to="/users/$userId"
+            to="/users/$userId/edit"
             params={{userId: String(row.original.id)}}
           >
-            <FileText className="w-4 h-4"/>
-            <span className="sr-only">View Details</span>
+            <Pencil className="w-4 h-4"/>
+            <span className="sr-only">Edit Details</span>
           </Link>
+          </span>
         ),
       }),
       columnHelper.accessor('name', {
