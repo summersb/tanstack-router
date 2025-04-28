@@ -5,7 +5,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
-  flexRender,
+  flexRender, type SortingState, getSortedRowModel,
 } from '@tanstack/react-table'
 import {Link} from '@tanstack/react-router'
 import {FileText, Pencil} from "lucide-react";
@@ -24,6 +24,7 @@ const UserTable: React.FC<UserTableProps> = ({users}) => {
     pageIndex: 0,
     pageSize: 10,
   })
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const columns = useMemo(
     () => [
@@ -51,12 +52,15 @@ const UserTable: React.FC<UserTableProps> = ({users}) => {
       }),
       columnHelper.accessor('name', {
         header: 'Name',
+        enableSorting: true
       }),
       columnHelper.accessor('username', {
         header: 'Username',
+        enableSorting: true
       }),
       columnHelper.accessor('email', {
         header: 'Email',
+        enableSorting: true,
         cell: (info) => (
           <a
             href={`mailto:${info.getValue()}`}
@@ -68,9 +72,11 @@ const UserTable: React.FC<UserTableProps> = ({users}) => {
       }),
       columnHelper.accessor('phone', {
         header: 'Phone',
+        enableSorting: true
       }),
       columnHelper.accessor('website', {
         header: 'Website',
+        enableSorting: true,
         cell: (info) => (
           <a
             href={`https://${info.getValue()}`}
@@ -85,10 +91,12 @@ const UserTable: React.FC<UserTableProps> = ({users}) => {
       columnHelper.accessor((row) => row.company.name, {
         id: 'company',
         header: 'Company',
+        enableSorting: true
       }),
       columnHelper.accessor((row) => row.address.city, {
         id: 'city',
         header: 'City',
+        enableSorting: true
       }),
     ],
     []
@@ -100,12 +108,15 @@ const UserTable: React.FC<UserTableProps> = ({users}) => {
     state: {
       globalFilter,
       pagination,
+      sorting,
     },
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   })
 
   return (
@@ -123,17 +134,22 @@ const UserTable: React.FC<UserTableProps> = ({users}) => {
           <thead className="bg-gray-100 dark:bg-gray-800">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                </th>
-              ))}
+              {headerGroup.headers.map((header) => {
+                const isSorted = header.column.getIsSorted();
+                return (
+                  <th
+                    key={header.id}
+                    className="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300"
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    {isSorted === 'asc' ? ' 🔼' : isSorted === 'desc' ? ' 🔽' : ''}
+                  </th>
+                )
+              })}
             </tr>
           ))}
           </thead>

@@ -4,7 +4,8 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  useReactTable
+  useReactTable,
+  type SortingState, getSortedRowModel
 } from "@tanstack/react-table";
 import {Link} from "@tanstack/react-router";
 import {FileText} from "lucide-react";
@@ -23,6 +24,7 @@ const TodoTable = ({todos}: TodoTableProps): React.ReactElement => {
     pageIndex: 0,
     pageSize: 10,
   })
+  const [sorting, setSorting] = useState<SortingState>([])
 
   const columns = useMemo(() => [
     columnHelper.display({
@@ -36,13 +38,16 @@ const TodoTable = ({todos}: TodoTableProps): React.ReactElement => {
       ),
     }),
     columnHelper.accessor("title", {
-      header: 'Title'
+      header: 'Title',
+      enableSorting: true
     }),
     columnHelper.accessor("completed", {
       header: 'Completed',
+      enableSorting: true
     }),
     columnHelper.accessor("userId", {
-      header: 'UserId'
+      header: 'UserId',
+      enableSorting: true
     })
   ], [])
 
@@ -51,13 +56,17 @@ const TodoTable = ({todos}: TodoTableProps): React.ReactElement => {
     columns,
     state: {
       globalFilter,
-      pagination
+      pagination,
+      sorting
     },
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    enableMultiSort: true,
   })
 
   return (
@@ -75,16 +84,19 @@ const TodoTable = ({todos}: TodoTableProps): React.ReactElement => {
           <thead className="bg-gray-100 dark:bg-gray-800">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id}
-                    className="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300"
-                >
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext()
-                  )}
-                </th>
-              ))}
+              {headerGroup.headers.map((header) => {
+                const isSorted = header.column.getIsSorted();
+                return (
+                  <th
+                    key={header.id}
+                    className="px-4 py-2 text-left text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer select-none"
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                    {isSorted === 'asc' ? ' 🔼' : isSorted === 'desc' ? ' 🔽' : ''}
+                  </th>
+                )
+              })}
             </tr>
           ))}
           </thead>
@@ -104,7 +116,8 @@ const TodoTable = ({todos}: TodoTableProps): React.ReactElement => {
 
       <TablePagination table={table}/>
     </div>
-  );
+  )
+    ;
 };
 
 export default TodoTable;
