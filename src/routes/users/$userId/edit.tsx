@@ -8,6 +8,7 @@ import {useMutation} from "@tanstack/react-query";
 import {API_URL} from '@/config/APIConfig'
 
 export const Route = createFileRoute('/users/$userId/edit')({
+  component: EditUser,
   loader: async ({params: {userId}}) => {
     const queryKey = ['users', userId]
     const queryFn = async (): Promise<User> =>
