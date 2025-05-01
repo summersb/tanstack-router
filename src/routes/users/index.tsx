@@ -2,6 +2,7 @@ import {createFileRoute} from '@tanstack/react-router'
 import queryClient from '@/queryClient'
 import UserTable from '@/components/user/UserTable'
 import type {User} from "@/types";
+import {API_URL} from '@/config/APIConfig'
 
 
 export const Route = createFileRoute('/users/')({
@@ -9,7 +10,7 @@ export const Route = createFileRoute('/users/')({
   loader: async () => {
     const queryKey = ['users']
     const queryFn = async (): Promise<User[]> =>
-      fetch('https://jsonplaceholder.typicode.com/users').then((response) =>
+      fetch(`${API_URL}/users`).then((response) =>
         response.json()
       )
     const users = await queryClient.ensureQueryData({

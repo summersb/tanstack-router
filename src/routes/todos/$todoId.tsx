@@ -2,13 +2,14 @@ import {createFileRoute} from '@tanstack/react-router'
 import TodoCard from "@/components/todo/TodoCard.tsx";
 import type {Todo} from "@/types";
 import queryClient from "@/queryClient.ts";
+import { API_URL } from '@/config/APIConfig';
 
 export const Route = createFileRoute('/todos/$todoId')({
   component: Todo,
   loader: async ({params: {todoId}}) => {
     const queryKey = ['todos', todoId]
     const queryFn = async (): Promise<Todo> =>
-      fetch(`https://jsonplaceholder.typicode.com/todos/${todoId}`).then(
+      fetch(`${API_URL}/todos/${todoId}`).then(
         (response) => response.json()
       )
     const todo = await queryClient.ensureQueryData({

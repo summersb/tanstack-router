@@ -5,13 +5,13 @@ import queryClient from "@/queryClient.ts";
 import FormInputField from "@/components/ui/FormInputField.tsx";
 import Button from "@/components/ui/Button.tsx";
 import {useMutation} from "@tanstack/react-query";
+import {API_URL} from '@/config/APIConfig'
 
 export const Route = createFileRoute('/users/$userId/edit')({
-  component: EditUser,
   loader: async ({params: {userId}}) => {
     const queryKey = ['users', userId]
     const queryFn = async (): Promise<User> =>
-      fetch(`https://jsonplaceholder.typicode.com/users/${userId}`).then(
+      fetch(`${API_URL}/users/${userId}`).then(
         (response) => response.json()
       )
     const user = await queryClient.ensureQueryData({
@@ -28,7 +28,7 @@ function EditUser() {
   const navigate = useNavigate()
 
   const updateUser = async (user: User) => {
-    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${user.id}`, {
+    const response = await fetch(`${API_URL}/users/${user.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
