@@ -1196,9 +1196,9 @@ detect-libc@^2.0.3:
   integrity sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==
 
 devalue@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.npmjs.org/devalue/-/devalue-5.1.1.tgz"
-  integrity sha512-maua5KUiapvEwiEAe+XnlZ3Rh0GD+qI1J/nb9vrJc3muPXvcF/8gXYTWF76+5DAqHyDUtOIImEuo0YKE9mshVw==
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/devalue/-/devalue-5.4.1.tgz#6086910772fa055d707f60a3e5858d26ef9dcf55"
+  integrity sha512-YtoaOfsqjbZQKGIMRYDWKjUmSB4VJ/RElB+bXZawQAQYAo4xu08GKTMVlsZDTF6R2MbAgjcAQRPI5eIyRAT2OQ==
 
 diff@^7.0.0:
   version "7.0.0"
